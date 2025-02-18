@@ -1,21 +1,101 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
+
+@theme {
+  --color-brand: var(--brand);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border-color);
+  --color-text: var(--text);
+  --color-text-inverted: var(--text-inverted);
+  --color-text-dark: var(--text-dark);
+  --color-text-light: var(--text-light);
+  --font-display: "Montserrat", "sans-serif";
+  --font-body: "Karla", "sans-serif";
+  --font-mono: "IBM Plex Mono", "monospace";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
 }
 
+:root {
+  --brand: #ed2839;
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  --text: #171819;
+  --text-inverted: #e5e5f7;
+
+  --text-dark: #171819;
+  --text-light: #e5e5f7;
+
+  --diagonal-spacing: 10px;
+  --diagonal-thickness: 1px;
+
+  --border-color: #171819;
+
+  --bg-primary: #fff;
+  --bg-primary-alt: #1e1b1b;
+  --bg-secondary: #f2f2f2;
+  --bg-ternary: #000000;
+  --bg-quaternary: #f5f5f5;
+  --bg-quinary: #f5f5f5;
+  --bg-gray: #f8f8f8;
+}
+.dark {
+  --border-color: #e5e5f7;
+
+  --text: #e5e5f7;
+  --text-inverted: #171819;
+
+  --bg-primary: #1a1c1d;
+  --bg-primary-alt: #171819;
+  --bg-secondary: #171819;
+  --bg-ternary: #fff;
+  --bg-quaternary: #f8f8f8;
+  --bg-quinary: #232628;
+  --bg-gray: #171819;
+}
+
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+
+  .font-display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+  }
+}
+
+.bg-diagonal {
+  --diagonal-color: var(--border-color);
+  --diagonal-spacing: 8px; /* Ajusta según desees */
+  --diagonal-thickness: 3px; /* Ajusta según desees */
+
+  background-color: var(--diagonal-color);
+  border-color: var(--diagonal-color);
+
+  background: repeating-linear-gradient(
+    -45deg,
+    /* De 0 a --diagonal-spacing = transparente */ transparent 0,
+    transparent var(--diagonal-spacing),
+    /* De --diagonal-spacing a (espacio + grosor) = color */
+      var(--diagonal-color) var(--diagonal-spacing),
+    var(--diagonal-color)
+      calc(var(--diagonal-spacing) + var(--diagonal-thickness))
+  );
+}
+
+.max-width-container {
+  @apply mx-auto max-w-[1920px];
 }
